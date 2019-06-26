@@ -38,20 +38,20 @@ router.delete('/blogposts/:id', requireToken, (req, res, next) => {
     .catch(next)
 })
 
-// router.patch('/posts/:id', requireToken, removeBlanks, (req, res, next) => {
-//   delete req.body.post.author
-//   // Don't need to actually call removeBlanks inside once you pass it in as a
-//   // parameter
-//
-//   Post.findById(req.params.id)
-//     .then(handle404)
-//     .then(post => {
-//       requireOwnership(req, post)
-//       return post.update(req.body.post)
-//     })
-//     .then(() => res.sendStatus(204))
-//     .catch(next)
-// })
+router.patch('/blogposts/:id', requireToken, removeBlanks, (req, res, next) => {
+  delete req.body.blogpost.owner
+  // Don't need to actually call removeBlanks inside once you pass it in as a
+  // parameter
+
+  BlogPost.findById(req.params.id)
+    .then(handle404)
+    .then(post => {
+      requireOwnership(req, post)
+      return post.update(req.body.blogpost)
+    })
+    .then(() => res.sendStatus(204))
+    .catch(next)
+})
 
 router.post('/blogposts', requireToken, (req, res, next) => {
   req.body.blogpost.owner = req.user.id

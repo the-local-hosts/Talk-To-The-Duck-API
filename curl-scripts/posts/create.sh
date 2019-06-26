@@ -4,7 +4,7 @@ POSTBODY="please work!!!"
 
 API="http://localhost:4741"
 URL_PATH="/blogposts"
-TOKEN="dcef98931e5babd3a9cffebcac9730a4"
+TOKEN="734a1703a9d09ac1761d91bbedf3cda9"
 
 curl "${API}${URL_PATH}" \
   --include \

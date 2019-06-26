@@ -74,7 +74,7 @@ router.post('/sign-in', (req, res, next) => {
       // save the found user outside the promise chain
       user = record
       // `bcrypt.compare` will return true if the result of hashing `pw`
-      // is exactly equal to the hashed password stored in the DB
+      // is exactly equals to the hashed password stored in the DB
       return bcrypt.compare(pw, user.hashedPassword)
     })
     .then(correctPassword => {

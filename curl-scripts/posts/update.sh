@@ -1,11 +1,9 @@
 #!/bin/bash
-
+TOKEN="734a1703a9d09ac1761d91bbedf3cda9"
 API="http://localhost:4741"
-URL_PATH="/books"
-TITLE=""
-AUTHOR="JRR Tolkien"
-TOKEN=4dc383ec85c00debfcfc6a1163354ffe
-ID=5d0cf67ed2b65dd7790fd0f2
+URL_PATH="/blogposts"
+TITLE="This title is so much better!"
+ID="5d13c681a42036e8e4e86ddd"
 
 curl "${API}${URL_PATH}/${ID}" \
   --include \
@@ -13,9 +11,8 @@ curl "${API}${URL_PATH}/${ID}" \
   --header "Content-Type: application/json" \
 --header "Authorization: Bearer ${TOKEN}" \
 --data '{
-    "book": {
-      "title": "'"${TITLE}"'",
-      "author": "'"${AUTHOR}"'"
+    "blogpost": {
+      "title": "'"${TITLE}"'"
     }
   }'
 
