@@ -1,6 +1,6 @@
 #!/bin/bash
-EMAIL="h@h"
-NAME="holly"
+EMAIL="e@e"
+NAME="eliza"
 PASSWORD="pw"
 
 API="http://localhost:4741"

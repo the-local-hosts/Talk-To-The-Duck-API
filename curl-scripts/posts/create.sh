@@ -1,10 +1,10 @@
 #!/bin/bash
-TITLE="awesome title"
-POSTBODY="awesome post body"
+TITLE="posto new"
+POSTBODY="please work!!!"
 
 API="http://localhost:4741"
 URL_PATH="/blogposts"
-TOKEN="da21c0912b08018ef23b928f3340dfea"
+TOKEN="dcef98931e5babd3a9cffebcac9730a4"
 
 curl "${API}${URL_PATH}" \
   --include \
