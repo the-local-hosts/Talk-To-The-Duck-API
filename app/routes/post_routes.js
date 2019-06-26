@@ -9,34 +9,35 @@ const removeBlanks = require('../../lib/remove_blank_fields')
 
 const router = express.Router()
 
-// router.get('/posts', (req, res, next) => {
-//   Post.find()
-//     .then(posts => {
-//       return posts.map(post => post.toObject())
-//     })
-//     .then(posts => res.status(200).json({ posts: posts }))
-//     .catch(next)
-// })
-//
-// router.get('/posts/:id', (req, res, next) => {
-//   Post.findById(req.params.id)
-//     .then(handle404)
-//     .then(post => res.status(200).json({ post: post.toObject() }))
-//     .catch(next)
-// })
-//
-// router.delete('/posts/:id', requireToken, (req, res, next) => {
-//   Post.findById(req.params.id)
-//     .then(handle404)
-//     .then(post => {
-//       // needs the req to get the user to compare against the owner of the book resource
-//       requireOwnership(req, post)
-//       post.remove()
-//     })
-//     .then(() => res.sendStatus(204))
-//     .catch(next)
-// })
-//
+router.get('/blogposts', (req, res, next) => {
+  BlogPost.find()
+    .populate('owner')
+    .then(posts => {
+      return posts.map(post => post.toObject())
+    })
+    .then(posts => res.status(200).json({ posts: posts }))
+    .catch(next)
+})
+
+router.get('/blogposts/:id', (req, res, next) => {
+  BlogPost.findById(req.params.id)
+    .then(handle404)
+    .then(post => res.status(200).json({ post: post.toObject() }))
+    .catch(next)
+})
+
+router.delete('/blogposts/:id', requireToken, (req, res, next) => {
+  BlogPost.findById(req.params.id)
+    .then(handle404)
+    .then(blogpost => {
+      // needs the req to get the user to compare against the owner of the book resource
+      requireOwnership(req, blogpost)
+      blogpost.remove()
+    })
+    .then(() => res.sendStatus(204))
+    .catch(next)
+})
+
 // router.patch('/posts/:id', requireToken, removeBlanks, (req, res, next) => {
 //   delete req.body.post.author
 //   // Don't need to actually call removeBlanks inside once you pass it in as a
@@ -53,7 +54,7 @@ const router = express.Router()
 // })
 
 router.post('/blogposts', requireToken, (req, res, next) => {
-  req.body.blogpost.author = req.user.id
+  req.body.blogpost.owner = req.user.id
   BlogPost.create(req.body.blogpost)
     .then(blogpost => {
       res.status(201).json({ blogpost: blogpost.toObject() })
