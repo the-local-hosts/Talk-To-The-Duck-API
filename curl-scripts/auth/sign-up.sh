@@ -1,4 +1,7 @@
 #!/bin/bash
+EMAIL="h@h"
+NAME="holly"
+PASSWORD="pw"
 
 API="http://localhost:4741"
 URL_PATH="/sign-up"
@@ -10,6 +13,7 @@ curl "${API}${URL_PATH}" \
   --data '{
     "credentials": {
       "email": "'"${EMAIL}"'",
+      "name": "'"${NAME}"'",
       "password": "'"${PASSWORD}"'",
       "password_confirmation": "'"${PASSWORD}"'"
     }
