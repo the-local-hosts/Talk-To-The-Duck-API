@@ -1,12 +1,13 @@
 const mongoose = require('mongoose')
 
-const blogPostSchema = new mongoose.Schema({
-  title: {
+const commentSchema = new mongoose.Schema({
+  comment: {
     type: String,
     required: true
   },
-  postBody: {
-    type: String,
+  blogpost: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'BlogPost',
     required: true
   },
   owner: {
@@ -26,11 +27,11 @@ const blogPostSchema = new mongoose.Schema({
 // blogPostSchema.virtual('editable?').get(function () {
 //   // Need to compare this to currently logged in user's id to see if
 //   // the owner of the blog post is the currently logged in user.
-//   if (this.owner._id) {  
+//   if (this.owner._id) {
 //     return true
 //   } else {
 //     return false
 //   }
 // })
 
-module.exports = mongoose.model('BlogPost', blogPostSchema)
+module.exports = mongoose.model('Comment', commentSchema)
