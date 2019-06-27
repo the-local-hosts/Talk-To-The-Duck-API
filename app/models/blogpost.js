@@ -26,7 +26,7 @@ const blogPostSchema = new mongoose.Schema({
 // blogPostSchema.virtual('editable?').get(function () {
 //   // Need to compare this to currently logged in user's id to see if
 //   // the owner of the blog post is the currently logged in user.
-//   if (this.owner._id) {  
+//   if (this.owner._id) {
 //     return true
 //   } else {
 //     return false
