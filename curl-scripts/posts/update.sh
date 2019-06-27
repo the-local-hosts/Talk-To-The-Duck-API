@@ -1,9 +1,10 @@
 #!/bin/bash
-TOKEN="734a1703a9d09ac1761d91bbedf3cda9"
+TOKEN="375cd1679a739bf0bf7b05647cc84990"
 API="http://localhost:4741"
 URL_PATH="/blogposts"
-TITLE="This title is so much better!"
-ID="5d13c681a42036e8e4e86ddd"
+TITLE="Kevin in Kevin's"
+ID="5d151633008e541dfbd1dfd1"
+
 
 curl "${API}${URL_PATH}/${ID}" \
   --include \
@@ -12,7 +13,7 @@ curl "${API}${URL_PATH}/${ID}" \
 --header "Authorization: Bearer ${TOKEN}" \
 --data '{
     "blogpost": {
-      "title": "'"${TITLE}"'"
+      "comment": {"text": "'"${TITLE}"'"}
     }
   }'
 
