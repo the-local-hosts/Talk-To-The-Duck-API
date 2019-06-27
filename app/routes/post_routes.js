@@ -10,7 +10,7 @@ const removeBlanks = require('../../lib/remove_blank_fields')
 const router = express.Router()
 
 router.get('/blogposts', (req, res, next) => {
-  BlogPost.find()
+  BlogPost.find().sort('-createdAt')
     .populate('owner')
     .then(posts => {
       return posts.map(post => post.toObject())
