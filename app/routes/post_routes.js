@@ -12,7 +12,9 @@ const router = express.Router()
 router.get('/blogposts', (req, res, next) => {
   BlogPost.find().sort('-createdAt')
     .populate('owner')
+    .populate('comments.postedBy')
     .then(posts => {
+      console.log(posts)
       return posts.map(post => post.toObject())
     })
     .then(posts => res.status(200).json({ posts: posts }))
@@ -43,11 +45,19 @@ router.patch('/blogposts/:id', requireToken, removeBlanks, (req, res, next) => {
   // Don't need to actually call removeBlanks inside once you pass it in as a
   // parameter
 
+  // post.update(post.comments.push(req.body.blogpost.comment))
+  // console.log(post)
+  // return post
   BlogPost.findById(req.params.id)
     .then(handle404)
     .then(post => {
-      requireOwnership(req, post)
-      return post.update(req.body.blogpost)
+      if (Object.keys(req.body.blogpost)[0] === 'comment') {
+        req.body.blogpost.comment.postedBy = req.user.id
+        return post.update({'$push': { 'comments': req.body.blogpost.comment }})
+      } else {
+        requireOwnership(req, post)
+        return post.update(req.body.blogpost)
+      }
     })
     .then(() => res.sendStatus(204))
     .catch(next)

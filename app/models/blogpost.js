@@ -13,15 +13,21 @@ const blogPostSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
-  }
+  },
+  comments: [{
+    text: String,
+    postedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  }]
 },
 {
   timestamps: true,
   toObject: {
     virtuals: true
   }
-}
-)
+})
 
 // blogPostSchema.virtual('editable?').get(function () {
 //   // Need to compare this to currently logged in user's id to see if
