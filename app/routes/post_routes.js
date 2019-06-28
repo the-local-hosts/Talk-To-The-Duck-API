@@ -102,6 +102,13 @@ router.delete('/blogposts/:post_id/comments/:id', requireToken, (req, res, next)
 })
 
 router.patch('/blogposts/:post_id/comments/:id', requireToken, (req, res, next) => {
+  BlogPost.findOneAndUpdate({'comments._id': req.params.id}, {'$set': {
+    'comments.$.text': req.body.comment }}, (err, doc) => {
+    if (err) {
+      next()
+    }
+    res.sendStatus(204)
+  })
 })
 
 // router.post('/blogpost/:post_id/likes/', requireToken, (req, res, next) => {
