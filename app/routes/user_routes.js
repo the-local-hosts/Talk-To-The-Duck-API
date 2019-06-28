@@ -11,6 +11,7 @@ const bcryptSaltRounds = 10
 
 // pull in error types and the logic to handle them and set status codes
 const errors = require('../../lib/custom_errors')
+const handle404 = errors.handle404
 
 const BadParamsError = errors.BadParamsError
 const BadCredentialsError = errors.BadCredentialsError
@@ -136,6 +137,36 @@ router.delete('/sign-out', requireToken, (req, res, next) => {
   // save the token and respond with 204
   req.user.save()
     .then(() => res.sendStatus(204))
+    .catch(next)
+})
+
+router.patch('/follow/:_id', requireToken, (req, res, next) => {
+  // console.log('User: ' + req.user.id, 'To Follow: ' + req.params._id)
+
+  User.findOne({_id: req.params._id}) // find the user we want to follow
+    .then(handle404)
+    .then(userFollowing => {
+      return userFollowing.update({'$push': { 'followers': req.user.id }}) // add user to followers
+    })
+    .catch(next)
+
+  User.findOne({_id: req.user.id}) // find the user we are going to follow
+    .then(handle404)
+    .then(userToFollow => {
+      return userToFollow.update({'$push': { 'following': req.params._id }}) // push user that started following
+    })
+    .then(() => res.sendStatus(204))
+    .catch(next)
+})
+
+router.get('/users', (req, res, next) => {
+  User.find()
+    .populate('following', 'name')
+    .populate('followers', 'name')
+    .then(users => {
+      return users.map(user => user.toObject())
+    })
+    .then(users => res.status(200).json({ users: users }))
     .catch(next)
 })
 

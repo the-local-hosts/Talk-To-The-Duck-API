@@ -1,5 +1,5 @@
 #!/bin/bash
-EMAIL="b@b"
+EMAIL="a@a"
 PASSWORD="a"
 
 API="http://localhost:4741"
