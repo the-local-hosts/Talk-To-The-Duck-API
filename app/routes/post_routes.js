@@ -52,50 +52,6 @@ router.patch('/blogposts/:id', requireToken, removeBlanks, (req, res, next) => {
     .catch(next)
 })
 
-router.post('/blogposts/:post_id/comments', requireToken, (req, res, next) => {
-  // console.log(req.body.comment)
-  BlogPost.findById(req.params.post_id)
-    .then(handle404)
-    .then(post => {
-      console.log(post)
-      req.body.postedBy = req.user.id
-      console.log(req.body.comment)
-      return post.update({'$push': { 'comments': {
-        text: req.body.comment,
-        postedBy: req.user.id
-      } }})
-    })
-    .then(() => res.sendStatus(204))
-    .catch(next)
-  // if (Object.keys(req.body.blogpost)[0] === 'comment') {
-  //   req.body.blogpost.comment.postedBy = req.user.id
-  //   return post.update({'$push': { 'comments': req.body.blogpost.comment }})
-  // } else if (Object.keys(req.body.blogpost)[0] === 'like') {
-  //   req.body.blogpost.comment.postedBy = req.user.id
-  //   return post.update({'$push': { 'likes': req.body.blogpost.like }})
-  // }
-  // next()
-})
-//
-// router.post('/blogpost/:post_id/likes/', requireToken, (req, res, next) => {
-//
-// })
-
-router.patch('/blogposts/:post_id/comments/:id', requireToken, removeBlanks, (req, res, next) => {
-  console.log(req.params)
-  // if (Object.keys(req.body.blogpost)[0] === 'comment') {
-  //   req.body.blogpost.comment.postedBy = req.user.id
-  //   return post.update({'$push': { 'comments': req.body.blogpost.comment }})
-  // } else if (Object.keys(req.body.blogpost)[0] === 'like') {
-  //   req.body.blogpost.comment.postedBy = req.user.id
-  //   return post.update({'$push': { 'likes': req.body.blogpost.like }})
-  // }
-})
-//
-// router.patch('/blogpost/:post_id/likes/:id', requireToken, (req, res, next) => {
-//
-// })
-
 router.post('/blogposts', requireToken, (req, res, next) => {
   req.body.blogpost.owner = req.user.id
   BlogPost.create(req.body.blogpost)
@@ -104,5 +60,61 @@ router.post('/blogposts', requireToken, (req, res, next) => {
     })
     .catch(next)
 })
+
+// Comments and likes routes
+// BlogPost.findById(req.params.post_id)
+//   .then(handle404)
+//   .then(post => {
+//     post.update({'comments.$._id': req.params.id}, {'$set': {
+//       'text': req.body.comment
+//     }})
+//     console.log(post)
+//     return post
+//   })
+//   .then(() => res.sendStatus(204))
+//   .catch(next)
+// BlogPost.findById(req.params.post_id)
+//   .then(handle404)
+//   .then(post => {
+//     return post.update({comments: {'_id': req.params.id}}, {'$set': {'text.$': req.body.comment}})
+//   })
+//   .then(() => res.sendStatus(204))
+//   .catch(next)
+
+router.post('/blogposts/:post_id/comments', requireToken, removeBlanks, (req, res, next) => {
+  BlogPost.findById(req.params.post_id)
+    .then(handle404)
+    .then(post => {
+      return post.update({'$push': { 'comments': { text: req.body.comment, postedBy: req.user.id } }})
+    })
+    .then(() => res.sendStatus(204))
+    .catch(next)
+})
+
+router.delete('/blogposts/:post_id/comments/:id', requireToken, (req, res, next) => {
+  BlogPost.findById(req.params.post_id)
+    .then(handle404)
+    .then(post => {
+      return post.update({'$pull': { 'comments': {_id: req.params.id} }})
+    })
+    .then(() => res.sendStatus(204))
+    .catch(next)
+})
+
+router.patch('/blogposts/:post_id/comments/:id', requireToken, (req, res, next) => {
+  BlogPost.findOneAndUpdate({'comments._id': req.params.id}, {'$set': {
+    'comments.$.text': req.body.comment }}, (err, doc) => {
+    if (err) {
+      next()
+    }
+    res.sendStatus(204)
+  })
+})
+
+// router.post('/blogpost/:post_id/likes/', requireToken, (req, res, next) => {
+// })
+//
+// router.patch('/blogpost/:post_id/likes/:id', requireToken, (req, res, next) => {
+// })
 
 module.exports = router
