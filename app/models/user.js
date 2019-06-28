@@ -15,6 +15,11 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  url: {
+    type: String,
+    default: 'public/images/avatar.png',
+    required: false
+  },
   token: String,
   following: [{
     type: mongoose.Schema.Types.ObjectId,
