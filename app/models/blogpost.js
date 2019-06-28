@@ -14,6 +14,12 @@ const blogPostSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
+  likes: [{
+    likedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  }],
   comments: [{
     text: String,
     postedBy: {

@@ -11,8 +11,8 @@ const router = express.Router()
 
 router.get('/blogposts', (req, res, next) => {
   BlogPost.find().sort('-createdAt')
-    .populate('owner')
-    .populate('comments.postedBy')
+    .populate('owner', 'name')
+    .populate('comments.postedBy', 'name')
     .then(posts => {
       console.log(posts)
       return posts.map(post => post.toObject())
@@ -42,26 +42,59 @@ router.delete('/blogposts/:id', requireToken, (req, res, next) => {
 
 router.patch('/blogposts/:id', requireToken, removeBlanks, (req, res, next) => {
   delete req.body.blogpost.owner
-  // Don't need to actually call removeBlanks inside once you pass it in as a
-  // parameter
-
-  // post.update(post.comments.push(req.body.blogpost.comment))
-  // console.log(post)
-  // return post
   BlogPost.findById(req.params.id)
     .then(handle404)
     .then(post => {
-      if (Object.keys(req.body.blogpost)[0] === 'comment') {
-        req.body.blogpost.comment.postedBy = req.user.id
-        return post.update({'$push': { 'comments': req.body.blogpost.comment }})
-      } else {
-        requireOwnership(req, post)
-        return post.update(req.body.blogpost)
-      }
+      requireOwnership(req, post)
+      return post.update(req.body.blogpost)
     })
     .then(() => res.sendStatus(204))
     .catch(next)
 })
+
+router.post('/blogposts/:post_id/comments', requireToken, (req, res, next) => {
+  // console.log(req.body.comment)
+  BlogPost.findById(req.params.post_id)
+    .then(handle404)
+    .then(post => {
+      console.log(post)
+      req.body.postedBy = req.user.id
+      console.log(req.body.comment)
+      return post.update({'$push': { 'comments': {
+        text: req.body.comment,
+        postedBy: req.user.id
+      } }})
+    })
+    .then(() => res.sendStatus(204))
+    .catch(next)
+  // if (Object.keys(req.body.blogpost)[0] === 'comment') {
+  //   req.body.blogpost.comment.postedBy = req.user.id
+  //   return post.update({'$push': { 'comments': req.body.blogpost.comment }})
+  // } else if (Object.keys(req.body.blogpost)[0] === 'like') {
+  //   req.body.blogpost.comment.postedBy = req.user.id
+  //   return post.update({'$push': { 'likes': req.body.blogpost.like }})
+  // }
+  // next()
+})
+//
+// router.post('/blogpost/:post_id/likes/', requireToken, (req, res, next) => {
+//
+// })
+
+router.patch('/blogposts/:post_id/comments/:id', requireToken, removeBlanks, (req, res, next) => {
+  console.log(req.params)
+  // if (Object.keys(req.body.blogpost)[0] === 'comment') {
+  //   req.body.blogpost.comment.postedBy = req.user.id
+  //   return post.update({'$push': { 'comments': req.body.blogpost.comment }})
+  // } else if (Object.keys(req.body.blogpost)[0] === 'like') {
+  //   req.body.blogpost.comment.postedBy = req.user.id
+  //   return post.update({'$push': { 'likes': req.body.blogpost.like }})
+  // }
+})
+//
+// router.patch('/blogpost/:post_id/likes/:id', requireToken, (req, res, next) => {
+//
+// })
 
 router.post('/blogposts', requireToken, (req, res, next) => {
   req.body.blogpost.owner = req.user.id
