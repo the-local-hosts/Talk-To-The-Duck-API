@@ -1,8 +1,8 @@
 #!/bin/bash
 
 API="http://localhost:4741/blogposts/"
-POST_ID="5d165c6ac5cda01df24ff37c"
-TOKEN="020b94daba41154020064aa3a11519d2"
+POST_ID="5d16711d7dd66b208806767b"
+TOKEN="e0da66d88046ad9994bea78df1a40b63"
 
 curl "${API}${URL_PATH}${POST_ID}/comments" \
   --include \
@@ -10,7 +10,7 @@ curl "${API}${URL_PATH}${POST_ID}/comments" \
   --header "Content-Type: application/json" \
   --header "Authorization: Bearer ${TOKEN}" \
   --data '{
-    "comment": "'"Another comment"'"
+    "comment": "'"Comment"'"
   }'
 
 echo
