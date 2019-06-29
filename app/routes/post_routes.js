@@ -4,6 +4,7 @@ const BlogPost = require('../models/blogpost')
 const customErrors = require('../../lib/custom_errors')
 const handle404 = customErrors.handle404
 const requireOwnership = customErrors.requireOwnership
+const commentOwnership = customErrors.commentOwnership
 const requireToken = passport.authenticate('bearer', { session: false })
 const removeBlanks = require('../../lib/remove_blank_fields')
 
@@ -62,30 +63,11 @@ router.post('/blogposts', requireToken, (req, res, next) => {
 })
 
 // Comments and likes routes
-// BlogPost.findById(req.params.post_id)
-//   .then(handle404)
-//   .then(post => {
-//     post.update({'comments.$._id': req.params.id}, {'$set': {
-//       'text': req.body.comment
-//     }})
-//     console.log(post)
-//     return post
-//   })
-//   .then(() => res.sendStatus(204))
-//   .catch(next)
-// BlogPost.findById(req.params.post_id)
-//   .then(handle404)
-//   .then(post => {
-//     return post.update({comments: {'_id': req.params.id}}, {'$set': {'text.$': req.body.comment}})
-//   })
-//   .then(() => res.sendStatus(204))
-//   .catch(next)
-
 router.post('/blogposts/:post_id/comments', requireToken, removeBlanks, (req, res, next) => {
   BlogPost.findById(req.params.post_id)
     .then(handle404)
     .then(post => {
-      return post.update({'$push': { 'comments': { text: req.body.comment, postedBy: req.user.id } }})
+      return post.update({$push: { 'comments': { text: req.body.comment, postedBy: req.user.id } }})
     })
     .then(() => res.sendStatus(204))
     .catch(next)
@@ -95,20 +77,26 @@ router.delete('/blogposts/:post_id/comments/:id', requireToken, (req, res, next)
   BlogPost.findById(req.params.post_id)
     .then(handle404)
     .then(post => {
-      return post.update({'$pull': { 'comments': {_id: req.params.id} }})
+      const comment = post.comments.find((comment) => comment._id.toString() === req.params.id)
+      commentOwnership(req, comment)
+      return post.update({$pull: { 'comments': comment }})
     })
     .then(() => res.sendStatus(204))
     .catch(next)
 })
 
 router.patch('/blogposts/:post_id/comments/:id', requireToken, (req, res, next) => {
-  BlogPost.findOneAndUpdate({'comments._id': req.params.id}, {'$set': {
-    'comments.$.text': req.body.comment }}, (err, doc) => {
-    if (err) {
-      next()
-    }
-    res.sendStatus(204)
-  })
+  BlogPost.findById(req.params.post_id)
+    .then(handle404)
+    .then(post => {
+      const comment = post.comments.find((comment) => comment._id.toString() === req.params.id)
+      commentOwnership(req, comment)
+      return BlogPost.update({'comments._id': req.params.id}, // didn't found a better way
+        { $set: { 'comments.$.text': req.body.comment } }
+      )
+    })
+    .then(() => res.sendStatus(204))
+    .catch(next)
 })
 
 // router.post('/blogpost/:post_id/likes/', requireToken, (req, res, next) => {
