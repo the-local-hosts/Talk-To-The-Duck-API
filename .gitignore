@@ -125,6 +125,7 @@ public/
 /test/tmp/
 /test/version_tmp/
 /tmp/
+/tempFiles
 
 # Used by dotenv library to load environment variables.
 .env

@@ -15,7 +15,6 @@ router.get('/blogposts', (req, res, next) => {
     .populate('owner', 'name')
     .populate('comments.postedBy', 'name')
     .then(posts => {
-      console.log(posts)
       return posts.map(post => post.toObject())
     })
     .then(posts => res.status(200).json({ posts: posts }))
