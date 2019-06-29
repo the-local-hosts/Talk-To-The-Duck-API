@@ -141,8 +141,6 @@ router.delete('/sign-out', requireToken, (req, res, next) => {
 })
 
 router.patch('/follow/:_id', requireToken, (req, res, next) => {
-  // console.log('User: ' + req.user.id, 'To Follow: ' + req.params._id)
-
   User.findOne({_id: req.params._id}) // find the user we want to follow
     .then(handle404)
     .then(userFollowing => {
@@ -155,7 +153,12 @@ router.patch('/follow/:_id', requireToken, (req, res, next) => {
     .then(userToFollow => {
       return userToFollow.update({'$push': { 'following': req.params._id }}) // push user that started following
     })
-    .then(() => res.sendStatus(204))
+    .then(() => {
+      User.findById(req.user.id)
+        .then(handle404)
+        .then(user => res.status(200).json({ user: user.toObject() }))
+        .catch(next)
+    })
     .catch(next)
 })
 
