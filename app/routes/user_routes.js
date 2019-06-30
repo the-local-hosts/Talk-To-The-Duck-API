@@ -162,15 +162,16 @@ router.patch('/follow/:_id', requireToken, (req, res, next) => {
     .catch(next)
 })
 
-router.get('/users', (req, res, next) => {
-  User.find()
-    .populate('following', 'name')
-    .populate('followers', 'name')
-    .then(users => {
-      return users.map(user => user.toObject())
-    })
-    .then(users => res.status(200).json({ users: users }))
-    .catch(next)
-})
+// route for debugging purposes
+// router.get('/users', (req, res, next) => {
+//   User.find()
+//     .populate('following', 'name')
+//     .populate('followers', 'name')
+//     .then(users => {
+//       return users.map(user => user.toObject())
+//     })
+//     .then(users => res.status(200).json({ users: users }))
+//     .catch(next)
+// })
 
 module.exports = router

@@ -100,7 +100,6 @@ router.patch('/blogposts/:post_id/comments/:id', requireToken, (req, res, next) 
 })
 
 router.post('/blogpost/:post_id/likes', requireToken, (req, res, next) => {
-  console.log(req.params.post_id)
   BlogPost.findById(req.params.post_id)
     .then(handle404)
     .then(post => {
