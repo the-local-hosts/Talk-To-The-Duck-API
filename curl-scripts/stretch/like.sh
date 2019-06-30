@@ -1,16 +1,16 @@
 #!/bin/bash
 TOKEN="375cd1679a739bf0bf7b05647cc84990"
 API="http://localhost:4741/"
-URL_PATH="follow"
-USERID="5d1579933a861466b385c58a"
-TOKEN="020b94daba41154020064aa3a11519d2"
+URL_PATH="blogpost"
+SECOND_URL="likes"
+POST_ID="5d18117d2ebfa11fae026bd3"
+TOKEN="efdfc891987eab539c1287410c16ffa0"
 
 
-curl "${API}${URL_PATH}/${USERID}" \
+curl "${API}${URL_PATH}/${POST_ID}/${SECOND_URL}" \
   --include \
-  --request PATCH \
+  --request POST \
   --header "Content-Type: application/json" \
   --header "Authorization: Bearer ${TOKEN}" \
-  --data '{}'
 
 echo

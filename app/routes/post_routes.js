@@ -5,6 +5,7 @@ const customErrors = require('../../lib/custom_errors')
 const handle404 = customErrors.handle404
 const requireOwnership = customErrors.requireOwnership
 const commentOwnership = customErrors.commentOwnership
+const likeOwnership = customErrors.likeOwnership
 const requireToken = passport.authenticate('bearer', { session: false })
 const removeBlanks = require('../../lib/remove_blank_fields')
 
@@ -98,10 +99,27 @@ router.patch('/blogposts/:post_id/comments/:id', requireToken, (req, res, next) 
     .catch(next)
 })
 
-// router.post('/blogpost/:post_id/likes/', requireToken, (req, res, next) => {
-// })
-//
-// router.patch('/blogpost/:post_id/likes/:id', requireToken, (req, res, next) => {
-// })
+router.post('/blogpost/:post_id/likes', requireToken, (req, res, next) => {
+  console.log(req.params.post_id)
+  BlogPost.findById(req.params.post_id)
+    .then(handle404)
+    .then(post => {
+      return post.update({$push: { 'likes': { likedBy: req.user.id } }})
+    })
+    .then(() => res.sendStatus(204))
+    .catch(next)
+})
+
+router.patch('/blogpost/:post_id/likes/:id', requireToken, (req, res, next) => {
+  BlogPost.findById(req.params.post_id)
+    .then(handle404)
+    .then(post => {
+      const like = post.likes.find((like) => like._id.toString() === req.params.id)
+      likeOwnership(req, like)
+      return post.update({$pull: { 'likes': like }})
+    })
+    .then(() => res.sendStatus(204))
+    .catch(next)
+})
 
 module.exports = router
