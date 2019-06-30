@@ -17,7 +17,6 @@ const customErrors = require('../../lib/custom_errors')
 // we'll use this function to send 404 when non-existant document is requested
 const handle404 = customErrors.handle404
 
-// console.log(createParams)
 
 router.post('/uploads', multerUpload.single('file'), requireToken, (req, res, next) => {
   promiseReadFile(req.file)
