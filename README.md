@@ -66,13 +66,13 @@ Entity Relationship Diagram:
 
 ##### Relationships in Final Product
 Collection: Users
-  Documents: email, name, password
+  Fields: email, name, password
 
 Collection: Blogposts
-  Documents: title, postBody, owner, likes, comments
+  Fields: title, postBody, owner, likes, comments
 
 Collection: Uploads
-  Documents: description, url
+  Fields: description, url
 
 Background Photo Credit:
 
