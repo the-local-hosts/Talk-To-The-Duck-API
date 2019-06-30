@@ -31,7 +31,7 @@ router.post('/uploads', multerUpload.single('file'), requireToken, (req, res, ne
         })
       res.status(201).json({ upload: upload.toObject() })
     })
-    .catch(console.error)
+    .catch(next)
 })
 
 module.exports = router
