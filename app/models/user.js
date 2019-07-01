@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
   },
   url: {
     type: String,
-    default: 'public/images/avatar.png',
+    default: 'public/avatar.png',
     required: false
   },
   token: String,
