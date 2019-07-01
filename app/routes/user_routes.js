@@ -153,25 +153,19 @@ router.patch('/follow/:_id', requireToken, (req, res, next) => {
     .then(userToFollow => {
       return userToFollow.update({'$push': { 'following': req.params._id }}) // push user that started following
     })
-    .then(() => {
-      User.findById(req.user.id)
-        .then(handle404)
-        .then(user => res.status(200).json({ user: user.toObject() }))
-        .catch(next)
-    })
+    .then(() => res.sendStatus(204))
     .catch(next)
 })
 
-// route for debugging purposes
-// router.get('/users', (req, res, next) => {
-//   User.find()
-//     .populate('following', 'name')
-//     .populate('followers', 'name')
-//     .then(users => {
-//       return users.map(user => user.toObject())
-//     })
-//     .then(users => res.status(200).json({ users: users }))
-//     .catch(next)
-// })
+router.get('/users', (req, res, next) => {
+  User.find()
+    .populate('following', 'name')
+    .populate('followers', 'name')
+    .then(users => {
+      return users.map(user => user.toObject())
+    })
+    .then(users => res.status(200).json({ users: users }))
+    .catch(next)
+})
 
 module.exports = router
