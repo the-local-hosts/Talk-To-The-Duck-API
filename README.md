@@ -58,7 +58,18 @@ As much as we like to think we're a dream team, we obviously ran into some issue
 ##### Future Iterations
 We were able to accomplish several of our stretch goals, but a couple of things that we did not get to were functionality to view a single post, search posts, or tags for posts.
 
+[Front and Back End deployed sites]
+
+[Back end:] https://pure-plains-50623.herokuapp.com/
+
+[Front end:] https://the-local-hosts.github.io/Talk-To-The-Duck-client/
+
+
+
 [Front End Repository](https://github.com/the-local-hosts/Talk-To-The-Duck-client)
+
+[Back End Repository] https://github.com/the-local-hosts/Talk-To-The-Duck-API
+
 
 Entity Relationship Diagram:
 
