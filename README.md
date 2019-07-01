@@ -1,5 +1,5 @@
 # Talk to the Duck
-##### By Hicham Boualam, Eliza Davis, Holly Klose, & Kevin Rosario
+##### By Hicham Boualam, Eliza Davis, Holly Klose, & Kevin Rosario-Adorno
 
 ### Technologies Used
 - JavaScript
@@ -60,30 +60,30 @@ We were able to accomplish several of our stretch goals, but a couple of things 
 
 [Front and Back End deployed sites]
 
-[Back end:] https://pure-plains-50623.herokuapp.com/
+[Back end](https://pure-plains-50623.herokuapp.com/)
 
-[Front end:] https://the-local-hosts.github.io/Talk-To-The-Duck-client/
+[Front end](https://the-local-hosts.github.io/Talk-To-The-Duck-client/)
 
 
 
 [Front End Repository](https://github.com/the-local-hosts/Talk-To-The-Duck-client)
 
-[Back End Repository] https://github.com/the-local-hosts/Talk-To-The-Duck-API
+[Back End Repository](https://github.com/the-local-hosts/Talk-To-The-Duck-API)
 
 
 Entity Relationship Diagram:
 
-![ERD](./erdtttd.JPG)
+![ERD](./erdtttd.jpg)
 
 ##### Relationships in Final Product
 Collection: Users
-  Fields: email, name, password
+- Fields: email, name, password
 
 Collection: Blogposts
-  Fields: title, postBody, owner, likes, comments
+- Fields: title, postBody, owner, likes, comments
 
 Collection: Uploads
-  Fields: description, url
+- Fields: description, url
 
 Background Photo Credit:
 
