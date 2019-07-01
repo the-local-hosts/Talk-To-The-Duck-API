@@ -38,6 +38,31 @@ In our planning stage, we decided that the best way to collaborate, particularly
 5. (KR & HB) "Delete a Post" button available to users on their respective posts and comments.
   1. API, event functions and handlers, UI and messaging.
 
+### Authentication
+
+  | Verb   | URI Pattern            | Controller#Action |
+  |--------|------------------------|-------------------|
+  | POST   | `/sign-up`             | `users#signup`    |
+  | POST   | `/sign-in`             | `users#signin`    |
+  | PATCH  | `/change-password/`    | `users#changepw`  |
+  | DELETE | `/sign-out/`           | `users#signout`   |
+  | PATCH  | `/follow/:_id`         | `user#follow`     |
+
+### BlogPost
+
+  | Verb   | URI Pattern            | Controller#Action |
+  |--------|------------------------|-------------------|
+  | GET    | `/blogposts`           | `post#index`      |
+  | GET    | `/blogposts/:id`       | `post#show`       |
+  | PATCH  | `/blogposts/:id`       | `post#update`     |
+  | DELETE | `/blogposts/:id`       | `post#delete`     |
+  | POST   | `/blogposts`           | `post#create`     |
+  | POST   | `/blogposts/:post_id/comments` |`comment#create`  |
+  | PATCH  | `/blogposts/:post_id/comments/:comment_id`  | `comment#update`  |
+  | POST   | `/blogposts/:post_id/likes` |`like#create`  |
+  | PATCH  | `/blogposts/:post_id/likes/:like_id`  | `like#update`  |   |
+
+
 ##### Stretch Goals:
 1. Adding "likes."
 2. Adding images and/or avatars.
