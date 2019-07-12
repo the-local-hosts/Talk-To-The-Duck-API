@@ -50,21 +50,20 @@ In our planning stage, we decided that the best way to collaborate, particularly
   | POST   | `/sign-in`             | `users#signin`    |
   | PATCH  | `/change-password/`    | `users#changepw`  |
   | DELETE | `/sign-out/`           | `users#signout`   |
-  | PATCH  | `/follow/:_id`         | `user#follow`     |
+  | PATCH  | `/follow/:_id`         | `users#follow`     |
 
 ### BlogPost
 
   | Verb   | URI Pattern            | Controller#Action |
   |--------|------------------------|-------------------|
-  | GET    | `/blogposts`           | `post#index`      |
-  | GET    | `/blogposts/:id`       | `post#show`       |
-  | PATCH  | `/blogposts/:id`       | `post#update`     |
-  | DELETE | `/blogposts/:id`       | `post#delete`     |
-  | POST   | `/blogposts`           | `post#create`     |
-  | POST   | `/blogposts/:post_id/comments` |`comment#create`  |
-  | PATCH  | `/blogposts/:post_id/comments/:comment_id`  | `comment#update`  |
-  | POST   | `/blogposts/:post_id/likes` |`like#create`  |
-  | PATCH  | `/blogposts/:post_id/likes/:like_id`  | `like#update`  |   |
+  | GET    | `/blogposts`           | `blogposts#index`      |
+  | PATCH  | `/blogposts/:id`       | `blogposts#update`     |
+  | DELETE | `/blogposts/:id`       | `blogposts#delete`     |
+  | POST   | `/blogposts`           | `blogposts#create`     |
+  | POST   | `/blogposts/:post_id/comments` |`comments#create`  |
+  | PATCH  | `/blogposts/:post_id/comments/:comment_id`  | `comments#update`  |
+  | POST   | `/blogposts/:post_id/likes` |`likes#create`  |
+  | PATCH  | `/blogposts/:post_id/likes/:like_id`  | `likes#update`  |   |
 
 
 ##### Stretch Goals:
